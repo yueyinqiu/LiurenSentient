@@ -1,9 +1,6 @@
-﻿using LrsCore;
-using LrsCore.实体.壬式内容;
+﻿using LrsCore.实体.壬式内容;
 using LrsCore.实体.起课信息;
 using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
 using YiJingFramework.PrimitiveTypes;
 using 三传表生成器;
 
@@ -24,20 +21,11 @@ using 三传表生成器;
             var 时 = new 年月日时(
                 default, default, default, default, 日干, 日支, default, 时支, default, 月将);
 
-            var 天地盘 = typeof(天地盘)
-                .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(年月日时) })
-                ?.Invoke(new object[] { 时 })
-                as 天地盘;
-            Debug.Assert(天地盘 is not null);
-            var 四课 = typeof(四课)
-                .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(年月日时), typeof(天地盘) })
-                ?.Invoke(new object[] { 时, 天地盘 })
-                as 四课;
-            Debug.Assert(四课 is not null);
+            var 天地 = 天地盘.月上加时(时);
+            var 课 = 四课.取四课(时, 天地);
+            var 三传 = new 三传涉害深浅计算(课, 天地);
 
-            var 三传 = new 三传涉害深浅计算(四课, 天地盘);
-
-            var str1 = $"{时.日干:C}{时.日支:C} {天地盘.取乘神(时支):C}加{时支:C}";
+            var str1 = $"{时.日干:C}{时.日支:C} {天地.取乘神(时支):C}加{时支:C}";
             var str2 = $"{三传.初传:C}{三传.中传:C}{三传.末传:C}";
             var str3 = "";
 
@@ -84,20 +72,12 @@ _ = Console.ReadLine();
             var 时 = new 年月日时(
                 default, default, default, default, 日干, 日支, default, 子, default, 子上);
 
-            var 天地盘 = typeof(天地盘)
-                .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(年月日时) })
-                ?.Invoke(new object[] { 时 })
-                as 天地盘;
-            Debug.Assert(天地盘 is not null);
-            var 四课 = typeof(四课)
-                .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(年月日时), typeof(天地盘) })
-                ?.Invoke(new object[] { 时, 天地盘 })
-                as 四课;
-            Debug.Assert(四课 is not null);
+            var 天地 = 天地盘.月上加时(时);
+            var 课 = 四课.取四课(时, 天地);
+            var 三传 = new 三传涉害深浅计算(课, 天地);
 
-            var 三传 = new 三传涉害深浅计算(四课, 天地盘);
             输出.Write("                ");
-            输出.Write(生成键(四课.日, 四课.辰, 天地盘.取乘神(子)));
+            输出.Write(生成键(课.日, 课.辰, 天地.取乘神(子)));
             输出.Write(" => (");
             输出.Write(三传.初传.Index);
             输出.Write(", ");

@@ -12,7 +12,7 @@ public readonly struct 天将 :
     private 天将(int 已经检查的序数)
     {
         Debug.Assert(已经检查的序数 is >= 0 and < 12);
-        序数 = 已经检查的序数;
+        this.序数 = 已经检查的序数;
     }
     public static 天将 贵人 => new(0);
     public static 天将 螣蛇 => new(1);
@@ -29,24 +29,24 @@ public readonly struct 天将 :
 
     public int CompareTo(天将 另一天将)
     {
-        return 序数.CompareTo(另一天将.序数);
+        return this.序数.CompareTo(另一天将.序数);
     }
 
     public bool Equals(天将 另一天将)
     {
-        return 序数.Equals(另一天将.序数);
+        return this.序数.Equals(另一天将.序数);
     }
 
     public override bool Equals([NotNullWhen(true)] object? 另一对象)
     {
         if (另一对象 is 天将 将)
-            return 序数.Equals(将.序数);
+            return this.序数.Equals(将.序数);
         return false;
     }
 
     public override string ToString()
     {
-        return 序数 switch
+        return this.序数 switch
         {
             0 => "贵人",
             1 => "螣蛇",
@@ -76,7 +76,7 @@ public readonly struct 天将 :
 
     public override int GetHashCode()
     {
-        return 序数.GetHashCode();
+        return this.序数.GetHashCode();
     }
 
     public static bool operator ==(天将 左, 天将 右)

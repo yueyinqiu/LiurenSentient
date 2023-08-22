@@ -8,7 +8,6 @@ using YiJingFramework.EntityRelations.ShierZhangshengs.Extensions;
 using YiJingFramework.EntityRelations.TianganJigongs.Extensions;
 using YiJingFramework.EntityRelations.TianganRelations.Extensions;
 using YiJingFramework.PrimitiveTypes;
-using static LrsCore.实体.起课信息.年月日时;
 
 namespace LrsCore.实体.壬式内容;
 
@@ -27,10 +26,7 @@ public partial class 神煞表
             int 所行 = 所至.Index - 某日月;
             return new(起某 + 所行 * 步长);
         }
-        private static Dizhi 马(Dizhi 支)
-        {
-            return 支.SanheRelation().DizhiOfZhangsheng.Liuchong();
-        }
+
         public static IEnumerable<(string, Dizhi?)> 取神煞(年月日时 年月日时)
         {
             #region 干煞
@@ -48,15 +44,14 @@ public partial class 神煞表
             Dizhi 游都;
             {
                 // 甲己在丑，乙庚在子，丙辛在寅，丁壬在巳，戊癸在申。
-                游都 = new Dizhi(
-                    年月日时.日干.Index switch
-                    {
-                        1 or 6 => 2,
-                        2 or 7 => 1,
-                        3 or 8 => 3,
-                        4 or 9 => 6,
-                        _ => 9
-                    });
+                游都 = 年月日时.日干.Index switch
+                {
+                    1 or 6 => Dizhi.Chou,
+                    2 or 7 => Dizhi.Zi,
+                    3 or 8 => Dizhi.Yin,
+                    4 or 9 => Dizhi.Si,
+                    _ => Dizhi.Shen
+                };
                 yield return ("游都", 游都);
             }
             {
@@ -65,20 +60,19 @@ public partial class 神煞表
             }
             {
                 // 午巳辰卯寅丑未申酉戌
-                var 结果 = new Dizhi(
-                    年月日时.日干.Index switch
-                    {
-                        1 => 7,
-                        2 => 6,
-                        3 => 5,
-                        4 => 4,
-                        5 => 3,
-                        6 => 2,
-                        7 => 8,
-                        8 => 9,
-                        9 => 10,
-                        _ => 11
-                    });
+                var 结果 = 年月日时.日干.Index switch
+                {
+                    1 => Dizhi.Wu,
+                    2 => Dizhi.Si,
+                    3 => Dizhi.Chen,
+                    4 => Dizhi.Mao,
+                    5 => Dizhi.Yin,
+                    6 => Dizhi.Chou,
+                    7 => Dizhi.Wei,
+                    8 => Dizhi.Shen,
+                    9 => Dizhi.You,
+                    _ => Dizhi.Xu
+                };
                 yield return ("干奇", 结果);
             }
             #endregion
@@ -108,7 +102,7 @@ public partial class 神煞表
             }
             {
                 // 三合第一位冲神。
-                yield return ("驿马", 马(年月日时.日支));
+                yield return ("驿马", 年月日时.日支.SanheRelation().DizhiOfZhangsheng.Liuchong());
             }
             {
                 // 三合第三位之前一位神。
@@ -116,31 +110,32 @@ public partial class 神煞表
             }
             {
                 // 孟日用酉，仲日用巳，季日用丑。即金神，又名红砂。
-                var 结果 = new Dizhi(年月日时.日支.MengZhongJi() switch
+                var 结果 = 年月日时.日支.MengZhongJi() switch
                 {
-                    MengZhongJi.Meng => 10,
-                    MengZhongJi.Zhong => 6,
-                    _ => 2,
-                });
+                    MengZhongJi.Meng => Dizhi.You,
+                    MengZhongJi.Zhong => Dizhi.Si,
+                    _ => Dizhi.Chou,
+                };
                 yield return ("破碎", 结果);
             }
             {
                 // 午 辰 寅 未 酉 亥
                 // 巳 卯 丑 申 戌 子
-                var 结果 = new Dizhi(年月日时.日支.Index switch
+                var 结果 = 年月日时.日支.Index switch
                 {
-                    1 => 7,
-                    2 => 6,
-                    3 => 5,
-                    4 => 3,
-                    5 => 2,
-                    6 => 8,
-                    7 => 9,
-                    8 => 10,
-                    9 => 11,
-                    10 => 12,
-                    _ => 1
-                });
+                    1 => Dizhi.Wu,
+                    2 => Dizhi.Si,
+                    3 => Dizhi.Chen,
+                    4 => Dizhi.Mao,
+                    5 => Dizhi.Yin,
+                    6 => Dizhi.Chou,
+                    7 => Dizhi.Wei,
+                    8 => Dizhi.Shen,
+                    9 => Dizhi.You,
+                    10 => Dizhi.Xu,
+                    11 => Dizhi.Hai,
+                    _ => Dizhi.Zi
+                };
                 yield return ("支仪", 结果);
             }
             #endregion
@@ -338,24 +333,24 @@ public partial class 神煞表
             {
                 // 未 寅 酉 丑 巳 申
                 // 戌 亥 子 午 卯 辰
-                var 结果 = new Dizhi(年月日时.月支.Index switch
+                var 结果 = 年月日时.月支.Index switch
                 {
-                    3 => 8,
-                    4 => 11,
-                    5 => 3,
-                    6 => 12,
-                    7 => 10,
-                    8 => 1,
-                    9 => 2,
-                    10 => 7,
-                    11 => 6,
-                    12 => 4,
-                    1 => 9,
-                    _ => 5
-                });
+                    3 => Dizhi.Wei,
+                    4 => Dizhi.Xu,
+                    5 => Dizhi.Yin,
+                    6 => Dizhi.Hai,
+                    7 => Dizhi.You,
+                    8 => Dizhi.Zi,
+                    9 => Dizhi.Chou,
+                    10 => Dizhi.Wu,
+                    11 => Dizhi.Si,
+                    12 => Dizhi.Mao,
+                    1 => Dizhi.Shen,
+                    _ => Dizhi.Chen
+                };
                 yield return ("会神", 结果);
             }
-            var 月马 = 马(年月日时.月支);
+            var 月马 = 年月日时.月支.SanheRelation().DizhiOfZhangsheng.Liuchong();
             {
                 // 驿马合神。如正五九月马在申，巳与申合即是。
                 yield return ("成神", 月马.Liuhe());
@@ -416,22 +411,22 @@ public partial class 神煞表
 
             #region 时煞
             var 四时 = 年月日时.月支.SanhuiRelation();
-            var 四时五行 = 四时.DizhiOfMeng.Wuxing();
+            var 四时孟数 = 四时.DizhiOfMeng.Index; // 寅3 巳6 申9 亥12
             {
                 // 戊寅、甲午、戊申、甲子。
 #warning 此戊、甲为何意？
-                var 结果 = new Dizhi((int)四时五行 switch
+                var 结果 = 四时孟数 switch
                 {
-                    0 => 3,
-                    1 => 7,
-                    3 => 9,
-                    _ => 1,
-                });
+                    3 => Dizhi.Yin,
+                    6 => Dizhi.Wu,
+                    9 => Dizhi.Shen,
+                    _ => Dizhi.Zi,
+                };
                 yield return ("天赦", 结果);
             }
             {
                 // 四时临官之神，如春木临官在寅之类。
-                yield return ("皇书", 四时五行.ShierZhangsheng(ShierZhangsheng.Linguan));
+                yield return ("皇书", 四时.DizhiOfMeng.Wuxing().ShierZhangsheng(ShierZhangsheng.Linguan));
             }
             Dizhi 孤辰;
             {
@@ -452,22 +447,22 @@ public partial class 神煞表
             }
             {
                 // 午酉子卯。
-                var 结果 = new Dizhi((int)四时五行 switch
+                var 结果 = 四时孟数 switch
                 {
-                    0 => 7,
-                    1 => 10,
-                    3 => 1,
-                    _ => 4,
-                });
+                    3 => Dizhi.Wu,
+                    6 => Dizhi.You,
+                    9 => Dizhi.Zi,
+                    _ => Dizhi.Mao,
+                };
                 yield return ("火鬼", 结果);
             }
-            var 天喜 = new Dizhi((int)四时五行 switch
+            var 天喜 = 四时孟数 switch
             {
-                0 => 11,
-                1 => 2,
-                3 => 5,
-                _ => 8,
-            });
+                3 => Dizhi.Xu,
+                6 => Dizhi.Chou,
+                9 => Dizhi.Chen,
+                _ => Dizhi.Wei,
+            };
             {
                 // 天喜后一位。
                 yield return ("丧车", 天喜.Next(-1));
@@ -493,13 +488,13 @@ public partial class 神煞表
             Dizhi 哭神;
             {
                 // 未戌丑辰。
-                哭神 = new Dizhi((int)四时五行 switch
+                哭神 = 四时孟数 switch
                 {
-                    0 => 8,
-                    1 => 11,
-                    3 => 2,
-                    _ => 5,
-                });
+                    3 => Dizhi.Wei,
+                    6 => Dizhi.Xu,
+                    9 => Dizhi.Chou,
+                    _ => Dizhi.Chen,
+                };
                 yield return ("哭神", 哭神);
             }
             {
@@ -508,24 +503,24 @@ public partial class 神煞表
             }
             {
                 // 丑子亥戌。
-                var 结果 = new Dizhi((int)四时五行 switch
+                var 结果 = 四时孟数 switch
                 {
-                    0 => 2,
-                    1 => 1,
-                    3 => 12,
-                    _ => 11,
-                });
+                    3 => Dizhi.Chou,
+                    6 => Dizhi.Zi,
+                    9 => Dizhi.Hai,
+                    _ => Dizhi.Xu,
+                };
                 yield return ("游神", 结果);
             }
             {
                 // 巳子酉辰。
-                var 结果 = new Dizhi((int)四时五行 switch
+                var 结果 = 四时孟数 switch
                 {
-                    0 => 6,
-                    1 => 1,
-                    3 => 10,
-                    _ => 5,
-                });
+                    3 => Dizhi.Si,
+                    6 => Dizhi.Zi,
+                    9 => Dizhi.You,
+                    _ => Dizhi.Chen,
+                };
                 yield return ("戏神", 结果);
             }
             #endregion

@@ -9,6 +9,7 @@ using YiJingFramework.EntityRelations.ShierZhangshengs.Extensions;
 using YiJingFramework.EntityRelations.TianganJigongs.Extensions;
 using YiJingFramework.EntityRelations.TianganRelations.Extensions;
 using YiJingFramework.PrimitiveTypes;
+using static LrsCore.实体.起课信息.年月日时;
 
 namespace LrsCore.实体.壬式内容;
 
@@ -166,11 +167,13 @@ public partial class 神煞表
                 });
                 yield return ("天德", 结果);
             }
+            Dizhi 月德;
             {
                 // 巳寅亥申三轮，即三合之禄神。
                 var 月支 = 年月日时.月支;
                 var 三合五行 = 月支.SanheRelation().DizhiOfDiwang.Wuxing();
-                yield return ("月德", 三合五行.ShierZhangsheng(ShierZhangsheng.Linguan));
+                月德 = 三合五行.ShierZhangsheng(ShierZhangsheng.Linguan);
+                yield return ("月德", 月德);
             }
             {
                 // 正月起子顺行。
@@ -333,198 +336,166 @@ public partial class 神煞表
                 // 勾神对宫。
                 yield return ("绞神", 勾神.Liuchong());
             }
+            {
+                // 未 寅 酉 丑 巳 申
+                // 戌 亥 子 午 卯 辰
+                var 结果 = new Dizhi(年月日时.月支.Index switch
+                {
+                    3 => 8,
+                    4 => 11,
+                    5 => 3,
+                    6 => 12,
+                    7 => 10,
+                    8 => 1,
+                    9 => 2,
+                    10 => 7,
+                    11 => 6,
+                    12 => 4,
+                    1 => 9,
+                    _ => 5
+                });
+                yield return ("会神", 结果);
+            }
+            var 月马 = 马(年月日时.月支);
+            {
+                // 驿马合神。如正五九月马在申，巳与申合即是。
+                yield return ("成神", 月马.Liuhe());
+            }
+            Dizhi 天鬼;
+            {
+                // 驿马前一位神。
+                天鬼 = 月马.Next();
+                yield return ("天鬼", 天鬼);
+            }
+            Dizhi 悬索;
+            {
+                // 天鬼对宫。
+                悬索 = 天鬼.Liuchong();
+                yield return ("悬索", 悬索);
+            }
+            {
+                // 同悬索。
+                yield return ("桃花", 悬索);
+            }
+            {
+                // 阳月用驿马，阴月用马对宫。
+                var 阳月 = 年月日时.月支.Yinyang().IsYang;
+                yield return ("产煞", 阳月 ? 月马 : 月马.Liuchong());
+            }
+            {
+                // 月德前一位。
+                yield return ("大煞", 月德.Next());
+            }
+            {
+                // 月德前二位。
+                yield return ("丧魄", 月德.Next(2));
+            }
+            #endregion
+
+            #region 旬煞
+            var 旬 = 年月日时.旬所在();
+            {
+                // 甲子甲戌旬在丑，甲申甲午旬在子，甲辰甲寅旬在亥。
+                Dizhi? 结果 = 旬.旬首.Index switch
+                {
+                    1 or 11 => new(2),
+                    9 or 7 => new(1),
+                    5 or 3 => new(12),
+                    _ => null
+                };
+                yield return ("三奇", 结果);
+            }
+            {
+                // 旬首之神。
+                yield return ("六仪", 旬.旬首);
+            }
+            {
+                // 六丁之神。
+                yield return ("丁马", 旬.获取对应地支(new Tiangan(4)));
+            }
+            #endregion
+
+            #region 时煞
+            var 四时 = 年月日时.月支.SanhuiRelation();
+            var 四时五行 = 四时.DizhiOfMeng.Wuxing();
+            {
+                // 戊寅、甲午、戊申、甲子。
+#warning 此戊、甲为何意？
+                var 结果 = new Dizhi((int)四时五行 switch
+                {
+                    0 => 3,
+                    1 => 7,
+                    3 => 9,
+                    _ => 1,
+                });
+                yield return ("天赦", 结果);
+            }
+            {
+                // 四时临官之神，如春木临官在寅之类。
+                yield return ("皇书", 四时五行.ShierZhangsheng(ShierZhangsheng.Linguan));
+            }
+            Dizhi 孤辰;
+            {
+                // 四时前一位。
+                孤辰 = 四时.DizhiOfJi.Next();
+                yield return ("孤辰", 孤辰);
+            }
+            {
+                // 四时后一位，关神同。
+                var 结果 = 四时.DizhiOfMeng.Next(-1);
+                yield return ("寡宿", 结果);
+                yield return ("关神", 结果);
+            }
+            {
+                // 喝散、钥神：同孤辰。
+                yield return ("喝散", 孤辰);
+                yield return ("钥神", 孤辰);
+            }
+            {
+                // 午酉子卯。
+                var 结果 = new Dizhi((int)四时五行 switch
+                {
+                    0 => 7,
+                    1 => 10,
+                    3 => 1,
+                    _ => 4,
+                });
+                yield return ("火鬼", 结果);
+            }
+            var 天喜 = new Dizhi((int)四时五行 switch
+            {
+                0 => 11,
+                1 => 2,
+                3 => 5,
+                _ => 8,
+            });
+            {
+                // 天喜后一位。
+                yield return ("丧车", 天喜.Next(-1));
+            }
+            {
+                // 戌丑辰未。
+                yield return ("天喜", 天喜);
+            }
+            {
+                // 同天喜。
+                yield return ("天耳", 天喜);
+            }
+            Dizhi 浴盆;
+            {
+                // 天喜冲位。
+                浴盆 = 天喜.Liuchong();
+                yield return ("浴盆", 浴盆);
+            }
+            {
+                // 同浴盆。
+                yield return ("天目", 浴盆);
+            }
             #endregion
         }
     }
 
-    #region 月煞
-    public static 取神煞法 会神 => (式) =>
-    {
-        // 未 寅 酉 丑 巳 申
-        // 戌 亥 子 午 卯 辰
-        var 月支 = 式.年月日时.月支;
-        return new(月支.Index switch
-        {
-            3 => 8,
-            4 => 11,
-            5 => 3,
-            6 => 12,
-            7 => 10,
-            8 => 1,
-            9 => 2,
-            10 => 7,
-            11 => 6,
-            12 => 4,
-            1 => 9,
-            _ => 5
-        });
-    };
-    public static 取神煞法 成神 => (式) =>
-    {
-        // 驿马合神。如正五九月马在申，巳与申合即是。
-        var 月支 = 式.年月日时.月支;
-        return 马(月支).Liuhe();
-    };
-    public static 取神煞法 天鬼 => (式) =>
-    {
-        // 驿马前一位神。
-        var 月支 = 式.年月日时.月支;
-        return 马(月支).Next();
-    };
-    public static 取神煞法 悬索 => (式) =>
-    {
-        // 天鬼对宫。
-        var 鬼 = 天鬼(式);
-        Debug.Assert(鬼.HasValue);
-        return 鬼.Value.Liuchong();
-    };
-    public static 取神煞法 桃花 => (式) =>
-    {
-        // 同悬索。
-        return 悬索(式);
-    };
-    public static 取神煞法 产煞 => (式) =>
-    {
-        // 阳月用驿马，阴月用马对宫。
-        var 月支 = 式.年月日时.月支;
-        return 月支.Yinyang().IsYang ? 马(月支) : 马(月支).Liuchong();
-    };
-    public static 取神煞法 大煞 => (式) =>
-    {
-        // 月德前一位。
-        var 德 = 月德(式);
-        Debug.Assert(德.HasValue);
-        return 德.Value.Next();
-    };
-    public static 取神煞法 丧魄 => (式) =>
-    {
-        // 月德前二位。
-        var 德 = 月德(式);
-        Debug.Assert(德.HasValue);
-        return 德.Value.Next(2);
-    };
-    #endregion
-
-    #region 旬煞
-    public static 取神煞法 三奇 => (式) =>
-    {
-        // 甲子甲戌旬在丑，甲申甲午旬在子，甲辰甲寅旬在亥。
-        var 旬 = 式.年月日时.旬所在();
-        return 旬.旬首.Index switch
-        {
-            1 or 11 => new(2),
-            9 or 7 => new(1),
-            5 or 3 => new(12),
-            _ => null
-        };
-    };
-    public static 取神煞法 六仪 => (式) =>
-    {
-        // 旬首之神。
-        var 旬 = 式.年月日时.旬所在();
-        return 旬.旬首;
-    };
-    public static 取神煞法 丁马 => (式) =>
-    {
-        // 六丁之神。
-        var 旬 = 式.年月日时.旬所在();
-        return 旬.获取对应地支(new Tiangan(4));
-    };
-    #endregion
-
     #region 时煞
-    public static 取神煞法 天赦 => (式) =>
-    {
-        // 戊寅、甲午、戊申、甲子。
-#warning 此戊、甲为何意？
-        var 时 = 式.年月日时.月支.SanhuiRelation().DizhiOfMeng.Wuxing();
-        return new((int)时 switch
-        {
-            0 => 3,
-            1 => 7,
-            3 => 9,
-            _ => 1,
-        });
-    };
-    public static 取神煞法 皇书 => (式) =>
-    {
-        // 四时临官之神，如春木临官在寅之类。
-        var 时 = 式.年月日时.月支.SanhuiRelation();
-        return 时.DizhiOfMeng.Wuxing().ShierZhangsheng(ShierZhangsheng.Linguan);
-    };
-    public static 取神煞法 孤辰 => (式) =>
-    {
-        // 四时前一位。
-        var 时 = 式.年月日时.月支.SanhuiRelation();
-        return 时.DizhiOfJi.Next();
-    };
-    public static 取神煞法 寡宿 => (式) =>
-    {
-        // 四时后一位，关神同。
-        var 时 = 式.年月日时.月支.SanhuiRelation();
-        return 时.DizhiOfMeng.Next(-1);
-    };
-    public static 取神煞法 关神 => (式) =>
-    {
-        return 寡宿(式);
-    };
-    public static 取神煞法 喝散 => (式) =>
-    {
-        // 喝散、钥神：同孤辰。
-        return 孤辰(式);
-    };
-    public static 取神煞法 钥神 => (式) =>
-    {
-        return 孤辰(式);
-    };
-    public static 取神煞法 火鬼 => (式) =>
-    {
-        // 午酉子卯。
-        var 时 = 式.年月日时.月支.SanhuiRelation().DizhiOfMeng.Wuxing();
-        return new((int)时 switch
-        {
-            0 => 7,
-            1 => 10,
-            3 => 1,
-            _ => 4,
-        });
-    };
-    public static 取神煞法 丧车 => (式) =>
-    {
-        // 天喜后一位。
-        var 喜 = 天喜(式);
-        Debug.Assert(喜.HasValue);
-        return 喜.Value.Next(-1);
-    };
-    public static 取神煞法 天喜 => (式) =>
-    {
-        // 戌丑辰未。
-        var 时 = 式.年月日时.月支.SanhuiRelation().DizhiOfMeng.Wuxing();
-        return new((int)时 switch
-        {
-            0 => 11,
-            1 => 2,
-            3 => 5,
-            _ => 8,
-        });
-    };
-    public static 取神煞法 天耳 => (式) =>
-    {
-        // 同天喜。
-        return 天喜(式);
-    };
-    public static 取神煞法 浴盆 => (式) =>
-    {
-        // 天喜冲位。
-        var 喜 = 天喜(式);
-        Debug.Assert(喜.HasValue);
-        return 喜.Value.Liuchong();
-    };
-    public static 取神煞法 天目 => (式) =>
-    {
-        // 同浴盆。
-        return 浴盆(式);
-    };
     public static 取神煞法 哭神 => (式) =>
     {
         // 未戌丑辰。

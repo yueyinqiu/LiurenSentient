@@ -23,7 +23,7 @@ public sealed class 四课
         this.辰阴 = 天地盘.取乘神(this.辰阳);
     }
 
-    public static 四课 取四课(年月日时 年月日时, 天地盘 天地盘)
+    public static 四课 创建(年月日时 年月日时, 天地盘 天地盘)
     {
         return new(年月日时, 天地盘);
     }

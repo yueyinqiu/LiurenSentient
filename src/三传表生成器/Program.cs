@@ -22,7 +22,7 @@ using 三传表生成器;
                 default, default, default, default, 日干, 日支, default, 时支, default, 月将);
 
             var 天地 = 天地盘.月上加时(时);
-            var 课 = 四课.取四课(时, 天地);
+            var 课 = 四课.创建(时, 天地);
             var 三传 = new 三传涉害深浅计算(课, 天地);
 
             var str1 = $"{时.日干:C}{时.日支:C} {天地.取乘神(时支):C}加{时支:C}";
@@ -73,7 +73,7 @@ _ = Console.ReadLine();
                 default, default, default, default, 日干, 日支, default, 子, default, 子上);
 
             var 天地 = 天地盘.月上加时(时);
-            var 课 = 四课.取四课(时, 天地);
+            var 课 = 四课.创建(时, 天地);
             var 三传 = new 三传涉害深浅计算(课, 天地);
 
             输出.Write("                ");

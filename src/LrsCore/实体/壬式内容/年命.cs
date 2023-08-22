@@ -18,7 +18,7 @@ public sealed class 年命
             Dizhi.Shen.Next(this.本命.Index - 年月日时.年支.Index);
     }
 
-    public static 年命 取年命(年月日时 年月日时, 本命信息 本命信息)
+    public static 年命 创建(年月日时 年月日时, 本命信息 本命信息)
     {
         return new(年月日时, 本命信息);
     }

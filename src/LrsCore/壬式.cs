@@ -9,21 +9,23 @@ public sealed class 壬式
     public 四课 四课 { get; }
     public 三传 三传 { get; }
     public 天将盘 天将盘 { get; }
-    public IReadOnlyList<年命> 年命 { get; }
+    public 神煞表 神煞表 { get; }
+    public IReadOnlyList<年命> 年命表 { get; }
 
-    private 壬式(年月日时 年月日时, IEnumerable<本命信息> 本命信息)
+    private 壬式(年月日时 年月日时, IEnumerable<本命信息> 本命信息表)
     {
         this.天地盘 = 天地盘.月上加时(年月日时);
-        this.四课 = 四课.取四课(年月日时, this.天地盘);
+        this.四课 = 四课.创建(年月日时, this.天地盘);
         this.三传 = 三传.依涉害深浅(this.天地盘, this.四课);
         this.天将盘 = 天将盘.甲戊庚牛羊(年月日时, this.天地盘);
-        this.年命 = 本命信息
-            .Select(本命 => 实体.壬式内容.年命.取年命(年月日时, 本命))
+        this.年命表 = 本命信息表
+            .Select(本命 => 年命.创建(年月日时, 本命))
             .ToImmutableArray();
+        this.神煞表 = 神煞表.六壬辨疑神煞纪要(年月日时);
     }
 
-    public static 壬式 起课(年月日时 年月日时, IEnumerable<本命信息> 本命信息)
+    public static 壬式 起课(年月日时 年月日时, IEnumerable<本命信息> 本命信息表)
     {
-        return new 壬式(年月日时, 本命信息);
+        return new 壬式(年月日时, 本命信息表);
     }
 }

@@ -10,16 +10,16 @@ public sealed record 年月日时(
 {
     public 旬 旬所在()
     {
-        return new 旬(new(日支.Index - 日干.Index + 1));
+        return new 旬(new(this.日支.Index - this.日干.Index + 1));
     }
 
     public sealed record 旬(Dizhi 旬首)
     {
-        public (Dizhi, Dizhi) 旬空亡 => (旬首.Next(-2), 旬首.Next(-1));
+        public (Dizhi, Dizhi) 旬空亡 => (this.旬首.Next(-2), this.旬首.Next(-1));
 
         public Tiangan? 获取对应天干(Dizhi 地支)
         {
-            var (空亡一, 空亡二) = 旬空亡;
+            var (空亡一, 空亡二) = this.旬空亡;
             if (地支 == 空亡一 || 地支 == 空亡二)
                 return null;
             return new Tiangan((地支.Index - this.旬首.Index + 13) % 12);

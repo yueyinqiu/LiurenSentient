@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using YiJingFramework.PrimitiveTypes;
 
 namespace LrsCore.实体.壬式内容;
 public sealed partial class 课体表

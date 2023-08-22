@@ -8,7 +8,7 @@ public sealed partial class 神煞表
 
     public IEnumerable<string> 取神煞(Dizhi dizhi)
     {
-        return 神煞字典[dizhi].AsReadOnly();
+        return this.神煞字典[dizhi].AsReadOnly();
     }
 
     private 神煞表(IEnumerable<(string, Dizhi?)> 神煞表)

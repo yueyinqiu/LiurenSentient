@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace LrsCore;
+namespace LrsCore.实体;
 
 public readonly struct 性别 :
     IComparable<性别>,
@@ -17,23 +17,23 @@ public readonly struct 性别 :
     public static 性别 女 => new(false);
     public int CompareTo(性别 另一性别)
     {
-        return this.为男.CompareTo(另一性别.为男);
+        return 为男.CompareTo(另一性别.为男);
     }
     public bool Equals(性别 另一性别)
     {
-        return this.为男.Equals(另一性别.为男);
+        return 为男.Equals(另一性别.为男);
     }
 
     public override bool Equals([NotNullWhen(true)] object? 另一对象)
     {
         if (另一对象 is 性别 性别)
-            return this.为男.Equals(性别.为男);
+            return 为男.Equals(性别.为男);
         return false;
     }
 
     public override string ToString()
     {
-        return this.为男 ? "男" : "女";
+        return 为男 ? "男" : "女";
     }
 
     public static explicit operator bool(性别 性别)
@@ -48,7 +48,7 @@ public readonly struct 性别 :
 
     public override int GetHashCode()
     {
-        return this.为男.GetHashCode();
+        return 为男.GetHashCode();
     }
 
     public static bool operator ==(性别 左, 性别 右)

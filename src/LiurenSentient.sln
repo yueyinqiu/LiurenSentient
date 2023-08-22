@@ -5,7 +5,11 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{36548860-6EEB-4FB8-B16E-15E4F3A95870}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LrsWebsite", "LiurenSentient\LrsWebsite\LrsWebsite.csproj", "{8ACCBF8E-9DCC-42AF-BAEC-C5EA5E3FEB58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LrsWebsite", "LiurenSentient\LrsWebsite\LrsWebsite.csproj", "{8ACCBF8E-9DCC-42AF-BAEC-C5EA5E3FEB58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LrsCore", "LrsCore\LrsCore.csproj", "{930248F5-EF5B-4D70-8445-96777E85B58F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "三传表生成器", "三传表生成器\三传表生成器.csproj", "{5D21B65A-80BA-468B-BB61-452021176A57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,14 @@ Global
 		{8ACCBF8E-9DCC-42AF-BAEC-C5EA5E3FEB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACCBF8E-9DCC-42AF-BAEC-C5EA5E3FEB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ACCBF8E-9DCC-42AF-BAEC-C5EA5E3FEB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{930248F5-EF5B-4D70-8445-96777E85B58F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930248F5-EF5B-4D70-8445-96777E85B58F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930248F5-EF5B-4D70-8445-96777E85B58F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930248F5-EF5B-4D70-8445-96777E85B58F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D21B65A-80BA-468B-BB61-452021176A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D21B65A-80BA-468B-BB61-452021176A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D21B65A-80BA-468B-BB61-452021176A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D21B65A-80BA-468B-BB61-452021176A57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

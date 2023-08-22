@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace LrsCore;
+namespace LrsCore.实体;
 
 public readonly struct 昼夜 :
     IComparable<昼夜>,
@@ -17,23 +17,23 @@ public readonly struct 昼夜 :
     public static 昼夜 夜 => new(false);
     public int CompareTo(昼夜 另一昼夜)
     {
-        return this.为昼.CompareTo(另一昼夜.为昼);
+        return 为昼.CompareTo(另一昼夜.为昼);
     }
     public bool Equals(昼夜 另一昼夜)
     {
-        return this.为昼.Equals(另一昼夜.为昼);
+        return 为昼.Equals(另一昼夜.为昼);
     }
 
     public override bool Equals([NotNullWhen(true)] object? 另一对象)
     {
         if (另一对象 is 昼夜 昼夜)
-            return this.为昼.Equals(昼夜.为昼);
+            return 为昼.Equals(昼夜.为昼);
         return false;
     }
 
     public override string ToString()
     {
-        return this.为昼 ? "昼" : "夜";
+        return 为昼 ? "昼" : "夜";
     }
 
     public static explicit operator bool(昼夜 昼夜)
@@ -48,7 +48,7 @@ public readonly struct 昼夜 :
 
     public override int GetHashCode()
     {
-        return this.为昼.GetHashCode();
+        return 为昼.GetHashCode();
     }
 
     public static bool operator ==(昼夜 左, 昼夜 右)

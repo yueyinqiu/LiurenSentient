@@ -1,5 +1,4 @@
 ﻿using LrsCore.实体.起课信息;
-using System.Diagnostics;
 using YiJingFramework.EntityRelations.DizhiMengZhongJis;
 using YiJingFramework.EntityRelations.DizhiMengZhongJis.Extensions;
 using YiJingFramework.EntityRelations.DizhiRelations.Extensions;
@@ -491,85 +490,70 @@ public partial class 神煞表
                 // 同浴盆。
                 yield return ("天目", 浴盆);
             }
+            Dizhi 哭神;
+            {
+                // 未戌丑辰。
+                哭神 = new Dizhi((int)四时五行 switch
+                {
+                    0 => 8,
+                    1 => 11,
+                    3 => 2,
+                    _ => 5,
+                });
+                yield return ("哭神", 哭神);
+            }
+            {
+                // 同哭神。
+                yield return ("五墓", 哭神);
+            }
+            {
+                // 丑子亥戌。
+                var 结果 = new Dizhi((int)四时五行 switch
+                {
+                    0 => 2,
+                    1 => 1,
+                    3 => 12,
+                    _ => 11,
+                });
+                yield return ("游神", 结果);
+            }
+            {
+                // 巳子酉辰。
+                var 结果 = new Dizhi((int)四时五行 switch
+                {
+                    0 => 6,
+                    1 => 1,
+                    3 => 10,
+                    _ => 5,
+                });
+                yield return ("戏神", 结果);
+            }
+            #endregion
+
+            #region 岁煞
+            {
+                // 岁后一位。
+                yield return ("大耗", 年月日时.年支.Next(-1));
+            }
+            {
+                // 岁前二位。
+                yield return ("丧门", 年月日时.年支.Next(2));
+            }
+            {
+                // 岁后二位。
+                yield return ("吊客", 年月日时.年支.Next(-2));
+            }
+            Dizhi 岁墓;
+            {
+                // 岁后五位。
+                岁墓 = 年月日时.年支.Next(-5);
+                yield return ("岁墓", 岁墓);
+            }
+            {
+                // 岁墓前一位。
+                yield return ("岁虎", 岁墓.Next(1));
+            }
             #endregion
         }
     }
-
-    #region 时煞
-    public static 取神煞法 哭神 => (式) =>
-    {
-        // 未戌丑辰。
-        var 时 = 式.年月日时.月支.SanhuiRelation().DizhiOfMeng.Wuxing();
-        return new((int)时 switch
-        {
-            0 => 8,
-            1 => 11,
-            3 => 2,
-            _ => 5,
-        });
-    };
-    public static 取神煞法 五墓 => (式) =>
-    {
-        // 同哭神。
-        return 哭神(式);
-    };
-    public static 取神煞法 游神 => (式) =>
-    {
-        // 丑子亥戌。
-        var 时 = 式.年月日时.月支.SanhuiRelation().DizhiOfMeng.Wuxing();
-        return new((int)时 switch
-        {
-            0 => 2,
-            1 => 1,
-            3 => 12,
-            _ => 11,
-        });
-    };
-    public static 取神煞法 戏神 => (式) =>
-    {
-        // 巳子酉辰。
-        var 时 = 式.年月日时.月支.SanhuiRelation().DizhiOfMeng.Wuxing();
-        return new((int)时 switch
-        {
-            0 => 6,
-            1 => 1,
-            3 => 10,
-            _ => 5,
-        });
-    };
-    #endregion
-
-    #region 岁煞
-    public static 取神煞法 大耗 => (式) =>
-    {
-        // 岁后一位。
-        var 年支 = 式.年月日时.年支;
-        return 年支.Next(-1);
-    };
-    public static 取神煞法 丧门 => (式) =>
-    {
-        // 岁前二位。
-        var 年支 = 式.年月日时.年支;
-        return 年支.Next(2);
-    };
-    public static 取神煞法 吊客 => (式) =>
-    {
-        // 岁后二位。
-        var 年支 = 式.年月日时.年支;
-        return 年支.Next(-2);
-    };
-    public static 取神煞法 岁墓 => (式) =>
-    {
-        // 岁后五位。
-        var 年支 = 式.年月日时.年支;
-        return 年支.Next(-5);
-    };
-    public static 取神煞法 岁虎 => (式) =>
-    {
-        // 岁墓前一位。
-        var 墓 = 岁墓(式);
-        Debug.Assert(墓.HasValue);
-        return 墓.Value.Next(1);
-    };
-    #endregion
 }

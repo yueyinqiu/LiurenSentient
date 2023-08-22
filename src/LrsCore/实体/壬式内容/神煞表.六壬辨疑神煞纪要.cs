@@ -23,18 +23,17 @@ partial class 神煞表
     {
         static IEnumerable<(string, Dizhi?)> 取神煞法提供类的神煞(年月日时 年月日时)
         {
-            var 壬式信息 = new 取神煞法提供类.壬式信息(年月日时);
-            foreach (var 属性 in typeof(取神煞法提供类).GetProperties())
+            var 壬式信息 = new 六壬辨疑神煞纪要提供类.壬式信息(年月日时);
+            foreach (var 属性 in typeof(六壬辨疑神煞纪要提供类).GetProperties())
             {
                 var 属性名 = 属性.Name;
                 var 属性值 = 属性.GetValue(null);
-                Debug.Assert(属性值 is 取神煞法提供类.取神煞法 or 取神煞法提供类.取多神煞法);
-                if (属性值 is 取神煞法提供类.取神煞法 单)
+                if (属性值 is 六壬辨疑神煞纪要提供类.取神煞法 单)
                 {
                     var 地支 = 单.Invoke(壬式信息);
                     yield return (属性名, 地支);
                 }
-                else if (属性值 is 取神煞法提供类.取多神煞法 多)
+                else if (属性值 is 六壬辨疑神煞纪要提供类.取多神煞法 多)
                 {
                     bool 没有此神煞 = true;
                     foreach (var 地支 in 多.Invoke(壬式信息))
@@ -50,7 +49,7 @@ partial class 神煞表
         return new 神煞表(取神煞法提供类的神煞(年月日时));
     }
 
-    private static class 取神煞法提供类
+    private static class 六壬辨疑神煞纪要提供类
     {
         public record 壬式信息(年月日时 年月日时);
 

@@ -14,7 +14,7 @@ public sealed partial class 神煞表
     private 神煞表(IEnumerable<(string, Dizhi?)> 神煞表)
     {
         this.神煞字典 = Enumerable.Range(1, 12)
-            .ToImmutableDictionary(x => new Dizhi(x), _ => new List<string>());
+            .ToImmutableDictionary(x => (Dizhi)x, _ => new List<string>());
 
         foreach (var (神煞名, 地支) in 神煞表)
         {

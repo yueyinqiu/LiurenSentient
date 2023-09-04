@@ -128,17 +128,16 @@ internal partial class 三传涉害深浅计算
 
         {
             // 昂星
-            var 酉 = new Dizhi(10);
             var 日阴阳 = 四课[1 - 1].下阴阳;
             if (日阴阳.IsYang)
             {
-                this.初传 = this.天地盘.取乘神(酉);
+                this.初传 = this.天地盘.取乘神(Dizhi.You);
                 this.中传 = 四课[3 - 1].上;
                 this.末传 = 四课[1 - 1].上;
                 return;
             }
 
-            this.初传 = this.天地盘.取临地(酉);
+            this.初传 = this.天地盘.取临地(Dizhi.You);
             this.中传 = 四课[1 - 1].上;
             this.末传 = 四课[3 - 1].上;
             return;
@@ -263,10 +262,10 @@ internal partial class 三传涉害深浅计算
                 {
                     switch (四课[i].下五行.GetRelation(四课[i].上五行))
                     {
-                        case WuxingRelation.OvercameByMe:
+                        case WuxingRelation.IsKeedByMe:
                             贼者.Add(i);
                             break;
-                        case WuxingRelation.OvercomingMe:
+                        case WuxingRelation.KesMe:
                             克者.Add(i);
                             break;
                     }
@@ -400,15 +399,15 @@ internal partial class 三传涉害深浅计算
         var 日 = 四课[1 - 1].干下;
         Debug.Assert(日.HasValue);
 
-        switch (日.Value.Index)
+        switch ((int)日.Value)
         {
             case 10: // 癸日 丑戌未
-                this.初传 = new Dizhi(2);
-                this.中传 = new Dizhi(11);
-                this.末传 = new Dizhi(8);
+                this.初传 = Dizhi.Chou;
+                this.中传 = Dizhi.Xu;
+                this.末传 = Dizhi.Wei;
                 return;
             case 2: // 乙日
-                this.初传 = new Dizhi(5); // 辰发用
+                this.初传 = Dizhi.Chen; // 辰发用
                 this.中传 = 四课[3 - 1].上;
                 var 刑神 = this.中传.SanxingRelation().TheNext;
                 this.末传 = 刑神 == this.中传 ? this.中传.Liuchong() : 刑神;
@@ -451,10 +450,10 @@ internal partial class 三传涉害深浅计算
         {
             switch (课.下五行.GetRelation(课.上五行))
             {
-                case WuxingRelation.OvercameByMe:
+                case WuxingRelation.IsKeedByMe:
                     下贼上课.Add(课);
                     break;
-                case WuxingRelation.OvercomingMe:
+                case WuxingRelation.KesMe:
                     上克下课.Add(课);
                     break;
             }
@@ -469,7 +468,7 @@ internal partial class 三传涉害深浅计算
 
     private static readonly ILookup<Dizhi, Wuxing> 逆寄宫五行 =
         Enumerable.Range(1, 10)
-        .Select(item => new Tiangan(item))
+        .Select(item => (Tiangan)item)
         .ToLookup(stem => stem.Jigong(), stem => stem.Wuxing());
     private static IReadOnlyList<四课之一> 上克下比较涉害程度取(IEnumerable<四课之一> 各课)
     {
@@ -477,13 +476,13 @@ internal partial class 三传涉害深浅计算
         List<四课之一> 结果 = new(4);
         foreach (var 课 in 各课)
         {
-            Debug.Assert(课.下五行.GetRelation(课.上五行) is WuxingRelation.OvercomingMe);
+            Debug.Assert(课.下五行.GetRelation(课.上五行) is WuxingRelation.KesMe);
 
             int 此次涉害程度 = 0;
             for (var current = 课.支下或干下之寄宫; current != 课.上; current = current.Next())
             {
                 此次涉害程度 += 逆寄宫五行[current].Append(current.Wuxing())
-                    .Where(low => 课.上五行.GetRelation(low) is WuxingRelation.OvercameByMe)
+                    .Where(low => 课.上五行.GetRelation(low) is WuxingRelation.IsKeedByMe)
                     .Count();
             }
             if (此次涉害程度 > 最大涉害程度)
@@ -503,13 +502,13 @@ internal partial class 三传涉害深浅计算
         foreach (var 课 in 各课)
         {
             Debug.Assert(
-                课.上五行.GetRelation(课.下五行) is WuxingRelation.OvercomingMe);
+                课.上五行.GetRelation(课.下五行) is WuxingRelation.KesMe);
 
             int 此次涉害程度 = 0;
             for (var current = 课.支下或干下之寄宫; current != 课.上; current = current.Next())
             {
                 此次涉害程度 += 逆寄宫五行[current].Append(current.Wuxing())
-                    .Where(low => 课.上五行.GetRelation(low) is WuxingRelation.OvercomingMe)
+                    .Where(low => 课.上五行.GetRelation(low) is WuxingRelation.KesMe)
                     .Count();
             }
             if (此次涉害程度 > 最大涉害程度)
@@ -543,10 +542,10 @@ internal partial class 三传涉害深浅计算
         {
             switch (日五行.GetRelation(课.上五行))
             {
-                case WuxingRelation.OvercomingMe:
+                case WuxingRelation.KesMe:
                     蒿矢.Add(课);
                     break;
-                case WuxingRelation.OvercameByMe:
+                case WuxingRelation.IsKeedByMe:
                     弹射.Add(课);
                     break;
             }

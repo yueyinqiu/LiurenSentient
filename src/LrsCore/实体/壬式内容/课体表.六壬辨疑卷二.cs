@@ -84,10 +84,10 @@ public partial class 课体表
             {
                 switch (课.下五行.GetRelation(课.上五行))
                 {
-                    case WuxingRelation.OvercameByMe:
+                    case WuxingRelation.IsKeedByMe:
                         下贼上课.Add(课);
                         break;
-                    case WuxingRelation.OvercomingMe:
+                    case WuxingRelation.KesMe:
                         上克下课.Add(课);
                         break;
                 }
@@ -100,7 +100,7 @@ public partial class 课体表
         {
             var 干五行 = 四课[0].下五行;
             return 四课.Where(课 => 干五行.GetRelation(课.上五行) is
-                WuxingRelation.OvercameByMe or WuxingRelation.OvercomingMe)
+                WuxingRelation.IsKeedByMe or WuxingRelation.KesMe)
                 .ToArray();
         }
     }

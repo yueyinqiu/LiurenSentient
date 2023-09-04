@@ -18,7 +18,7 @@ public sealed class 天地盘
 
     private 天地盘(年月日时 年月日时)
     {
-        this.偏移 = 年月日时.月将.Index - 年月日时.时支.Index;
+        this.偏移 = (int)年月日时.月将 - (int)年月日时.时支;
     }
     public static 天地盘 月上加时(年月日时 年月日时)
     {

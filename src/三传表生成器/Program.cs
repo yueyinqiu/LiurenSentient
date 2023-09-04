@@ -14,9 +14,9 @@ using 三传表生成器;
     using StreamWriter 此次有误 = new StreamWriter($"./此次有误.txt", false);
 
     var 时支 = Dizhi.Zi;
-    foreach (var (日干, 日支) in Enumerable.Range(1, 60).Select(x => (new Tiangan(x), new Dizhi(x))))
+    foreach (var (日干, 日支) in Enumerable.Range(1, 60).Select(x => ((Tiangan)x, (Dizhi)x)))
     {
-        foreach (var 月将 in Enumerable.Range(1, 12).Select(x => new Dizhi(x)))
+        foreach (var 月将 in Enumerable.Range(1, 12).Select(x => (Dizhi)x))
         {
             var 时 = new 年月日时(
                 default, default, default, default, 日干, 日支, default, 时支, default, 月将);
@@ -54,20 +54,20 @@ _ = Console.ReadLine();
 {
     static int 生成键(Tiangan 日, Dizhi 辰, Dizhi 子所乘)
     {
-        Debug.Assert(日.Index * 10000L + 辰.Index * 100L + 子所乘.Index < int.MaxValue);
-        return 日.Index * 10000 + 辰.Index * 100 + 子所乘.Index;
+        Debug.Assert((int)日 * 10000L + (int)辰 * 100L + (int)子所乘 < int.MaxValue);
+        return (int)日 * 10000 + (int)辰 * 100 + (int)子所乘;
     }
 
     using StreamWriter 输出 = new StreamWriter("成表.txt", false);
-    输出.WriteLine("        private static (int 初, int 中, int 末) 获取三传(int 键)");
+    输出.WriteLine("        private static (Dizhi 初, Dizhi 中, Dizhi 末)? 获取三传(int 键)");
     输出.WriteLine("        {");
     输出.WriteLine("            return 键 switch");
     输出.WriteLine("            {");
 
     var 子 = Dizhi.Zi;
-    foreach (var (日干, 日支) in Enumerable.Range(1, 60).Select(x => (new Tiangan(x), new Dizhi(x))))
+    foreach (var (日干, 日支) in Enumerable.Range(1, 60).Select(x => ((Tiangan)x, (Dizhi)x)))
     {
-        foreach (var 子上 in Enumerable.Range(1, 12).Select(x => new Dizhi(x)))
+        foreach (var 子上 in Enumerable.Range(1, 12).Select(x => (Dizhi)x))
         {
             var 时 = new 年月日时(
                 default, default, default, default, 日干, 日支, default, 子, default, 子上);
@@ -78,16 +78,16 @@ _ = Console.ReadLine();
 
             输出.Write("                ");
             输出.Write(生成键(课.日, 课.辰, 天地.取乘神(子)));
-            输出.Write(" => (");
-            输出.Write(三传.初传.Index);
-            输出.Write(", ");
-            输出.Write(三传.中传.Index);
-            输出.Write(", ");
-            输出.Write(三传.末传.Index);
+            输出.Write(" => (Dizhi.");
+            输出.Write(三传.初传);
+            输出.Write(", Dizhi.");
+            输出.Write(三传.中传);
+            输出.Write(", Dizhi.");
+            输出.Write(三传.末传);
             输出.WriteLine("),");
         }
     }
-    输出.WriteLine("                _ => (0, 0, 0)");
+    输出.WriteLine("                _ => null");
     输出.WriteLine("            };");
     输出.WriteLine("        }");
 }

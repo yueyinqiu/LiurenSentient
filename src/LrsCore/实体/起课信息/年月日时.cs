@@ -1,16 +1,14 @@
-﻿using YiJingFramework.PrimitiveTypes;
+﻿using YiJingFramework.Nongli.Solar;
+using YiJingFramework.PrimitiveTypes;
 
 namespace LrsCore.实体.起课信息;
 public sealed record 年月日时(
-    Tiangan 年干, Dizhi 年支,
-    Tiangan 月干, Dizhi 月支,
-    Tiangan 日干, Dizhi 日支,
-    Tiangan 时干, Dizhi 时支,
-    昼夜 昼夜, Dizhi 月将)
+    Ganzhi 年, Ganzhi 月, Ganzhi 日, Ganzhi 时, 
+    Dizhi 将, 昼夜 昼夜)
 {
     public 旬 旬所在()
     {
-        return new 旬(this.日支 - (int)this.日干 + 1);
+        return new 旬(this.日.Dizhi - (int)this.日.Tiangan + 1);
     }
 
     public sealed record 旬(Dizhi 旬首)
@@ -26,7 +24,7 @@ public sealed record 年月日时(
         }
         public Dizhi 获取对应地支(Tiangan 天干)
         {
-            return (Dizhi)(this.旬首 + (int)天干 - 1);
+            return this.旬首 + (int)天干 - 1;
         }
     }
 }

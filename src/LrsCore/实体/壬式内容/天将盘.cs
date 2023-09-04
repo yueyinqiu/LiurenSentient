@@ -14,7 +14,7 @@ public sealed class 天将盘
 
     public static 天将盘 甲戊庚牛羊(年月日时 年月日时, 天地盘 天地盘)
     {
-        var 贵人 = (Dizhi)((int)年月日时.日干 switch
+        var 贵人 = (Dizhi)((int)年月日时.日.Tiangan switch
         {
             // 甲戊庚牛羊
             1 or 5 or 7 => 年月日时.昼夜.为昼 ? 2 : 8,

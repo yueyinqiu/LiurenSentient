@@ -14,11 +14,11 @@ public sealed class 四课
 
     private 四课(年月日时 年月日时, 天地盘 天地盘)
     {
-        this.日 = 年月日时.日干;
+        this.日 = 年月日时.日.Tiangan;
         this.日阳 = 天地盘.取乘神(this.日.Jigong());
         this.日阴 = 天地盘.取乘神(this.日阳);
 
-        this.辰 = 年月日时.日支;
+        this.辰 = 年月日时.日.Dizhi;
         this.辰阳 = 天地盘.取乘神(this.辰);
         this.辰阴 = 天地盘.取乘神(this.辰阳);
     }

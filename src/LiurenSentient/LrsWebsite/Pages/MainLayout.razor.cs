@@ -1,16 +1,9 @@
 ﻿using MudBlazor;
 
-namespace LrsWebsite.Shared;
+namespace LrsWebsite.Pages;
 
 public partial class MainLayout
 {
-    private bool isDrawerOpen = true;
-
-    private void ToggleDrawer()
-    {
-        this.isDrawerOpen = !this.isDrawerOpen;
-    }
-
     private readonly MudTheme theme = new MudTheme()
     {
         Typography = new Typography()
@@ -18,6 +11,13 @@ public partial class MainLayout
             Default = new Default()
             {
                 FontFamily = new[] { "Noto Serif" }
+            },
+            H1 = new H1()
+            {
+                FontSize = "1.5rem",
+                FontWeight = 400,
+                LineHeight = 1.334,
+                LetterSpacing = "0"
             }
         }
     };

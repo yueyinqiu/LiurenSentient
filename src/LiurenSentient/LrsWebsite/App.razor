@@ -1,15 +1,24 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>找不到页面 - 六壬吾心</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <MudContainer MaxWidth="MaxWidth.Large" Class="pt-16">
-                <MudText Typo="Typo.h3" Class="p3">找不到页面</MudText>
-                <MudText>没有找到您正试图访问的页面。请检查地址是否正确。</MudText>
-            </MudContainer>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿@using LrsWebsite.Pages
+@using Microsoft.AspNetCore.Components.Routing
+
+<!--
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>找不到页面 - 六壬吾心</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <MudContainer MaxWidth="MaxWidth.Large" Class="pt-16">
+                    <MudText Typo="Typo.h3" Class="p3">找不到页面</MudText>
+                    <MudText>没有找到您正试图访问的页面。请检查地址是否正确。</MudText>
+                </MudContainer>
+            </LayoutView>
+        </NotFound>
+    </Router>
+-->
+
+<LayoutView Layout="@typeof(MainLayout)">
+    <IndexPage></IndexPage>
+</LayoutView>

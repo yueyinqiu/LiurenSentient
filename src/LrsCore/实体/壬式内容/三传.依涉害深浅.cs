@@ -16,8 +16,8 @@ public partial class 三传
 
     static int 生成键(Ganzhi 日, Dizhi 子所乘)
     {
-        Debug.Assert((int)日 * 100L + (int)子所乘 < int.MaxValue);
-        return (int)日 * 100 + (int)子所乘;
+        Debug.Assert((日.Index * 100L + 子所乘.Index < int.MaxValue));
+        return 日.Index * 100 + 子所乘.Index;
     }
 
     private static (Dizhi 初, Dizhi 中, Dizhi 末) 获取三传(int 键)

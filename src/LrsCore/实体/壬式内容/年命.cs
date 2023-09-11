@@ -14,8 +14,8 @@ public sealed class 年命
         this.本命 = 本命信息.本命;
 
         this.行年 = 本命信息.性别.为男 ?
-            Dizhi.Yin.Next((int)年月日时.年.Dizhi - (int)this.本命) :
-            Dizhi.Shen.Next((int)this.本命 - (int)年月日时.年.Dizhi);
+            Dizhi.Yin.Next(年月日时.年.Dizhi.Index - this.本命.Index) :
+            Dizhi.Shen.Next(this.本命.Index - 年月日时.年.Dizhi.Index);
     }
 
     public static 年命 创建(年月日时 年月日时, 本命信息 本命信息)

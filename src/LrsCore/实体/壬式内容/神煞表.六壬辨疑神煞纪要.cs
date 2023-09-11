@@ -23,8 +23,8 @@ public partial class 神煞表
         private static Dizhi 某日月起某某行十二支(
             int 某日月, int 起某, Dizhi 所至, int 步长 = 1)
         {
-            int 所行 = (int)所至 - 某日月;
-            return (Dizhi)(起某 + 所行 * 步长);
+            int 所行 = 所至.Index - 某日月;
+            return Dizhi.FromIndex(起某 + 所行 * 步长);
         }
 
         public static IEnumerable<(string, Dizhi?)> 取神煞(年月日时 年月日时)
@@ -44,7 +44,7 @@ public partial class 神煞表
             Dizhi 游都;
             {
                 // 甲己在丑，乙庚在子，丙辛在寅，丁壬在巳，戊癸在申。
-                游都 = (int)年月日时.日.Tiangan switch
+                游都 = 年月日时.日.Tiangan.Index switch
                 {
                     1 or 6 => Dizhi.Chou,
                     2 or 7 => Dizhi.Zi,
@@ -60,7 +60,7 @@ public partial class 神煞表
             }
             {
                 // 午巳辰卯寅丑未申酉戌
-                var 结果 = (int)年月日时.日.Tiangan switch
+                var 结果 = 年月日时.日.Tiangan.Index switch
                 {
                     1 => Dizhi.Wu,
                     2 => Dizhi.Si,
@@ -121,7 +121,7 @@ public partial class 神煞表
             {
                 // 午 辰 寅 未 酉 亥
                 // 巳 卯 丑 申 戌 子
-                var 结果 = (int)年月日时.日.Dizhi switch
+                var 结果 = 年月日时.日.Dizhi.Index switch
                 {
                     1 => Dizhi.Wu,
                     2 => Dizhi.Si,
@@ -144,7 +144,7 @@ public partial class 神煞表
             {
                 // 正 二 三 四 五 六 七 八 九 十 十一 十二
                 // 丁 坤 壬 辛 干 甲 癸 艮 丙 乙 巽  庚
-                var 结果 = (Dizhi)((int)年月日时.月.Dizhi switch
+                var 结果 = Dizhi.FromIndex(年月日时.月.Dizhi.Index switch
                 {
                     3 => 8,
                     4 => 9,
@@ -270,7 +270,7 @@ public partial class 神煞表
             }
             {
                 // 阳月起丑顺行，阴月起未顺行。
-                var 结果 = (Dizhi)((int)年月日时.月.Dizhi switch
+                var 结果 = Dizhi.FromIndex(年月日时.月.Dizhi.Index switch
                 {
                     3 => 2,
                     5 => 3,
@@ -289,7 +289,7 @@ public partial class 神煞表
             }
             {
                 // 卯月起巳，午月起寅，酉月起亥，子月起申，俱顺行。
-                var 结果 = (Dizhi)((int)年月日时.月.Dizhi switch
+                var 结果 = Dizhi.FromIndex(年月日时.月.Dizhi.Index switch
                 {
                     4 => 6,
                     5 => 7,
@@ -309,7 +309,7 @@ public partial class 神煞表
             Dizhi 勾神;
             {
                 // 阳月起卯，隔月顺行六阴神。阴月起戌，隔月顺行六阳神。
-                勾神 = (Dizhi)((int)年月日时.月.Dizhi switch
+                勾神 = Dizhi.FromIndex(年月日时.月.Dizhi.Index switch
                 {
                     3 => 4,
                     5 => 6,
@@ -333,7 +333,7 @@ public partial class 神煞表
             {
                 // 未 寅 酉 丑 巳 申
                 // 戌 亥 子 午 卯 辰
-                var 结果 = (int)年月日时.月.Dizhi switch
+                var 结果 = 年月日时.月.Dizhi.Index switch
                 {
                     3 => Dizhi.Wei,
                     4 => Dizhi.Xu,
@@ -390,7 +390,7 @@ public partial class 神煞表
             var 旬 = 年月日时.旬所在();
             {
                 // 甲子甲戌旬在丑，甲申甲午旬在子，甲辰甲寅旬在亥。
-                Dizhi? 结果 = (int)旬.旬首 switch
+                Dizhi? 结果 = 旬.旬首.Index switch
                 {
                     1 or 11 => Dizhi.Chou,
                     9 or 7 => Dizhi.Zi,
@@ -405,13 +405,13 @@ public partial class 神煞表
             }
             {
                 // 六丁之神。
-                yield return ("丁马", 旬.获取对应地支((Tiangan)4));
+                yield return ("丁马", 旬.获取对应地支(Tiangan.Ding));
             }
             #endregion
 
             #region 时煞
             var 四时 = 年月日时.月.Dizhi.SanhuiRelation();
-            var 四时孟数 = (int)四时.DizhiOfMeng; // 寅3 巳6 申9 亥12
+            var 四时孟数 = 四时.DizhiOfMeng.Index; // 寅3 巳6 申9 亥12
             {
                 // 戊寅、甲午、戊申、甲子。
 #warning 此戊、甲为何意？

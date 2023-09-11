@@ -399,7 +399,7 @@ internal partial class 三传涉害深浅计算
         var 日 = 四课[1 - 1].干下;
         Debug.Assert(日.HasValue);
 
-        switch ((int)日.Value)
+        switch (日.Value.Index)
         {
             case 10: // 癸日 丑戌未
                 this.初传 = Dizhi.Chou;
@@ -468,7 +468,7 @@ internal partial class 三传涉害深浅计算
 
     private static readonly ILookup<Dizhi, Wuxing> 逆寄宫五行 =
         Enumerable.Range(1, 10)
-        .Select(item => (Tiangan)item)
+        .Select(Tiangan.FromIndex)
         .ToLookup(stem => stem.Jigong(), stem => stem.Wuxing());
     private static IReadOnlyList<四课之一> 上克下比较涉害程度取(IEnumerable<四课之一> 各课)
     {

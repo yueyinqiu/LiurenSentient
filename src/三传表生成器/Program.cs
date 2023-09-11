@@ -17,7 +17,7 @@ using 三传表生成器;
     var 时干支 = Ganzhi.FromGanzhi(default, Dizhi.Zi);
     foreach (var 日 in Enumerable.Range(1, 60).Select(x => (Ganzhi)x))
     {
-        foreach (var 月将 in Enumerable.Range(1, 12).Select(x => (Dizhi)x))
+        foreach (var 月将 in Enumerable.Range(1, 12).Select(Dizhi.FromIndex))
         {
             var 时 = new 年月日时(default, default, 日, 时干支, 月将, default);
 
@@ -54,8 +54,8 @@ _ = Console.ReadLine();
 {
     static int 生成键(Ganzhi 日, Dizhi 子所乘)
     {
-        Debug.Assert((int)日 * 100L + (int)子所乘 < int.MaxValue);
-        return (int)日 * 100 + (int)子所乘;
+        Debug.Assert((int)日 * 100L + 子所乘.Index < int.MaxValue);
+        return (int)日 * 100 + 子所乘.Index;
     }
 
     using StreamWriter 输出 = new StreamWriter("成表.txt", false);
@@ -67,7 +67,7 @@ _ = Console.ReadLine();
     var 时干支 = Ganzhi.FromGanzhi(default, Dizhi.Zi);
     foreach (var 日 in Enumerable.Range(1, 60).Select(x => (Ganzhi)x))
     {
-        foreach (var 子上 in Enumerable.Range(1, 12).Select(x => (Dizhi)x))
+        foreach (var 子上 in Enumerable.Range(1, 12).Select(Dizhi.FromIndex))
         {
             var 时 = new 年月日时(default, default, 日, 时干支, 子上, default);
 
